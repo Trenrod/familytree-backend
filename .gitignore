@@ -1,4 +1,4 @@
 creds.txt
 db.sqlite3
 .venv
-test
+.vscode
