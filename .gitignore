@@ -2,3 +2,6 @@ creds.txt
 db.sqlite3
 .venv
 .vscode
+api/__pycache__
+api/migrations/__pycache__
+familytree/__pycache__
