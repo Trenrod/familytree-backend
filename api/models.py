@@ -1,9 +1,11 @@
-from django.db import models
+"""Lists all models"""
 
-# Create your models here.
+from django.db import models
 
 
 class Person(models.Model):
+    """Represents a perso and its releations"""
+
     id = models.BigAutoField(primary_key=True)
     forename: str = models.CharField(max_length=256)
     lastname: str = models.CharField(max_length=256)
@@ -11,13 +13,21 @@ class Person(models.Model):
     birthname: str = models.CharField(max_length=256, blank=True, null=True)
     birthdate = models.DateTimeField(null=True, blank=True)
     dayOfDeath = models.DateTimeField(null=True, blank=True)
-    bio: str = models.TextField()
-    marriages = models.ManyToManyField("self", symmetrical=True)
-    parents = models.ManyToManyField("self", symmetrical=True)
-    children = models.ManyToManyField("self", symmetrical=True)
+    bio: str = models.TextField(null=True, blank=True)
+    marriages = models.ManyToManyField("self", symmetrical=True, blank=True)
+    parents = models.ManyToManyField("self", symmetrical=False, blank=True)
+
+    def __str__(self):
+        if (self.birthname):
+            return f"{self.forename} {self.lastname} ({self.birthname})"
+        else:
+            return f"{self.forename} {self.lastname}"
 
 
-class Places(models.Model):
+
+class Place(models.Model):
+    """A place in the world"""
+
     id = models.BigAutoField(primary_key=True)
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
     city = models.CharField(max_length=256)
@@ -25,7 +35,9 @@ class Places(models.Model):
     desciption = models.TextField()
 
 
-class Foto(models.Model):
+class Picture(models.Model):
+    """A picture"""
+
     id = models.BigAutoField(primary_key=True)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     desciption = models.TextField()
